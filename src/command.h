@@ -4,6 +4,6 @@
 #include "types.h"
 #include "inputbuffer.h"
 
-MetaCommandResult do_meta_command(InputBuffer*);
+MetaCommandResult do_meta_command(InputBuffer*, Table*);
 
 #endif

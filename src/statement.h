@@ -4,6 +4,8 @@
 #include "types.h"
 
 PrepareResult prepare_statement(InputBuffer*, Statement*);
-void execute_statement(Statement*);
+ExecuteResult execute_insert(Statement*, Table*);
+ExecuteResult execute_select(Statement*, Table*);
+ExecuteResult execute_statement(Statement*, Table*);
 
 #endif
