@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+PrepareResult prepare_insert(InputBuffer*, Statement*);
 PrepareResult prepare_statement(InputBuffer*, Statement*);
 ExecuteResult execute_insert(Statement*, Table*);
 ExecuteResult execute_select(Statement*, Table*);
