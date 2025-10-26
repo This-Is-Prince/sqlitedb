@@ -3,7 +3,8 @@
 
 #include "types.h"
 
-Table* new_table();
+Table* db_open(const char*);
+void db_close(Table*);
 void free_table(Table*);
 
 #endif

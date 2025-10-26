@@ -1,11 +1,14 @@
 DB_BIN = ENV.fetch("DB_BIN", "./build/sqlitedb")
 
 describe "database" do
+  before do
+    `rm -rf test.db`
+  end
   def run_script(commands)
     raise "Binary not found at #{DB_BIN}" unless File.exist?(DB_BIN) && File.executable?(DB_BIN)
 
     raw_output = nil
-    IO.popen(DB_BIN, "r+") do |pipe|
+    IO.popen(DB_BIN + " test.db", "r+") do |pipe|
       commands.each { |cmd| pipe.puts cmd }
       pipe.close_write
       raw_output = pipe.gets(nil)
@@ -82,6 +85,26 @@ describe "database" do
     expect(result).to match_array([
       "db > ID must be positive.",
       "db > Executed.",
+      "db > ",
+    ])
+  end
+
+  it 'keeps data after closing connection' do
+    result1 = run_script([
+      "insert 1 user1 person1@example.com",
+      ".exit",
+    ])
+    expect(result1).to match_array([
+      "db > Executed.",
+      "db > ",
+    ])
+    result2 = run_script([
+      "select",
+      ".exit",
+    ])
+    expect(result2).to match_array([
+      "db > (1, user1, person1@example.com)",
+      "Executed.",
       "db > ",
     ])
   end
